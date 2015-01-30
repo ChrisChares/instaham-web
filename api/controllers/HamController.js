@@ -20,23 +20,37 @@ module.exports = {
 	freshHam: function(req, res) {
 		
 		Ham.
-		find().
-		limit(50).
+		find({sort: 'createdAt DESC'}).
 		then(function(hams) {
 			res.json(hams);
-		});
+		}).catch(badRequest);
 	},
 
-	createHam: function(req, res) {
-
-		Ham.
-		create().
+	upvote: function(req, res) {
+		var id = req.param('id');
+		Ham.findOne(id).
 		then(function(ham) {
-			res.json(ham);
-		});
+			ham.likes ++;
+			ham.refreshScore();
+			ham.save(function() {
+				res.json(ham);
+			});
+		}).
+		catch(res.badRequest);
+	},
 
+	downvote: function(req, res) {
+		var id = req.param('id');
+		Ham.findOne(id).
+		then(function(ham) {
+			ham.dislikes ++;
+			ham.refreshScore();
+			ham.save(function(updated) {
+				res.json(ham);
+			});
+		}).
+		catch(res.badRequest);
 	}
-
 
 };
 

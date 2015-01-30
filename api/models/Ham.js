@@ -16,13 +16,19 @@ module.exports = {
   		type: 'integer',
   		defaultsTo: 0
   	},
+    score : {
+      type: 'integer',
+      defaultsTo: 0
+    },
   	imageURL: {
   		type: 'string'
   	},
 
-  	score: function() {
-  		return likes - dislikes;
+
+
+  	refreshScore: function() {
+  		this.score = this.likes - this.dislikes;
   	}
-  }
+  },
 };
 

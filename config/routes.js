@@ -34,7 +34,9 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
+  'POST /ham/:id/upvote': 'HamController.upvote',
+  'POST /ham/:id/downvote': 'HamController.downvote'
 
   /***************************************************************************
   *                                                                          *
