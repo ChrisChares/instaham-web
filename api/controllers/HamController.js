@@ -62,7 +62,6 @@ module.exports = {
 		populate('votes').
 		limit(50).
 		then(function(hams) {
-
 			res.json(addValuesToHams(hams, req.session.user));		
 		});
 	},
