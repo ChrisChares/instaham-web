@@ -8,21 +8,19 @@
 module.exports = {
 
   attributes: {
-  	likes: {
-  		type: 'integer',
-  		defaultsTo: 0
-  	},
-  	dislikes: {
-  		type: 'integer',
-  		defaultsTo: 0
-  	},
-    score : {
-      type: 'integer',
-      defaultsTo: 0
-    },
+
   	imageURL: {
   		type: 'string'
   	},
+
+    votes: {
+      collection: 'vote',
+      via: 'ham'
+    },
+
+    poster: {
+      model: 'user'
+    },
 
 
 

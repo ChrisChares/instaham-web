@@ -9,6 +9,20 @@ module.exports = {
 
   attributes: {
 
+  	//created via [NSUUID uuid]
+  	uuid: {
+  		type: 'string',
+  	},
+
+  	votes: {
+  		collection: 'vote',
+  		via: 'user'
+  	},
+
+  	hams: {
+  		collection: 'ham',
+  		via: 'poster'
+  	}
   }
 };
 

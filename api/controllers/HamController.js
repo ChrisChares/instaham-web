@@ -33,7 +33,14 @@ module.exports = {
 			ham.likes ++;
 			ham.refreshScore();
 			ham.save(function() {
-				res.json(ham);
+				return ham;
+				// res.json(ham);
+			});
+		}).then(function(ham) {
+			Vote.findOrCreate({ham: ham.id}).
+			then(function(vote) {
+				
+
 			});
 		}).
 		catch(res.badRequest);
