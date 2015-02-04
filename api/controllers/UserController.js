@@ -22,7 +22,7 @@ module.exports = {
 		}).
 		then(function(user) {
 			sails.log.info('Logged in user ' + user.uuid);
-			req.session.user = user;
+			req.session.user = user.uuid;
 			res.json(user);
 		}).catch(res.serverError);
 	},

@@ -8,14 +8,26 @@
 module.exports = {
 
   attributes: {
-  	like: 'integer',
-  	dislike: 'integer',
-  	score: 'integer',
+
+  	like: {
+      type: 'integer',
+      defaultsTo: 0
+    },
+    dislike: {
+      type: 'integer',
+      defaultsTo: 0
+    },
+    score: {
+      type: 'integer',
+      defaultsTo: 0
+    },
   	ham: {
-  		model: 'ham'
+  		model: 'ham',
+      required: true
   	},
   	user: {
-  		model: 'user'
+  		model: 'user',
+      required: true
   	}
   },
 
