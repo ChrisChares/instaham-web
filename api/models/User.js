@@ -12,6 +12,8 @@ module.exports = {
   	//created via [NSUUID uuid]
   	uuid: {
   		type: 'string',
+  		primaryKey: true,
+  		unique: true
   	},
 
   	votes: {
