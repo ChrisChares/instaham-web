@@ -51,7 +51,11 @@ module.exports = {
 		populate('votes').
 		limit(50).
 		then(function(hams) {
-			res.json(addValuesToHams(hams, req.session.user));		
+			var updatedHams = addValuesToHams(hams, req.session.user);
+			updatedHams = _.sortBy(updatedHams, function(ham) {
+				return -ham.score;
+			});
+			res.json(updatedHams);		
 		});
 	},
 
