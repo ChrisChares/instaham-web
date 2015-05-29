@@ -9,6 +9,14 @@ module.exports = {
 
   attributes: {
 
+    latitude: {
+      type: 'float'
+    },
+
+    longitude: {
+      type: 'float'
+    },
+
   	imageURL: {
   		type: 'string'
   	},
@@ -26,7 +34,19 @@ module.exports = {
 
   	refreshScore: function() {
   		this.score = this.likes - this.dislikes;
-  	}
+  	},
+    location: function() {
+      return {
+        latitude: this.latitude,
+        longitude: this.longitude
+      };
+    },
+    toJSON: function() {
+      var obj = this.toObject();
+      obj.location = this.location();
+      return obj;
+    }
+
   },
 
   generate: function(ham, cb) {
