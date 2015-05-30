@@ -29,11 +29,9 @@ function addVotesToHam(ham) {
 
 function addMyVoteToHam(ham, user) {
 
-	sails.log.info('my vote is ' + user);
 	var myVote = _.find(ham.votes, function(vote) {
 		return vote.user === user;
 	});
-	sails.log.info('myvote is' + myVote);
 
 	return myVote;
 };
@@ -114,6 +112,21 @@ module.exports = {
 			res.badRequest(error);
 		});
 	},
+
+	closest: function(req, res) {
+		var count = req.param('count');
+		var lat = req.param('latitude');
+		var lon = req.param('longitude');
+
+		Ham.
+		find({sort: 'createdAt DESC'}).
+		populate('votes').
+		limit(50).
+		then(function(hams) {
+			res.json(addValuesToHams(hams, req.session.user));		
+		});
+	},
+
 
 	downvote: function(req, res) {
 				if ( ! req.session.user ) {

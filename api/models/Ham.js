@@ -30,8 +30,6 @@ module.exports = {
       model: 'user'
     },
 
-
-
   	refreshScore: function() {
   		this.score = this.likes - this.dislikes;
   	},
