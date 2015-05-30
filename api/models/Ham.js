@@ -53,7 +53,6 @@ module.exports = {
     Ham.findOne(ham).
     populate('votes')
     then(function(ham) {
-
       return _.reduce(ham.votes, function(sum, next) {
         sum.likes + next.likes;
         sum.dislikes + next.dislikes;
