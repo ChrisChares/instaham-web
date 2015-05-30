@@ -14,8 +14,7 @@ module.exports = {
       type: 'integer',
       autoIncrement: 'true',
       unique: 'true',
-            primaryKey: 'true',
-
+      primaryKey: 'true',
     },
   	uuid: {
   		type: 'string',
@@ -24,7 +23,7 @@ module.exports = {
 
   	votes: {
   		collection: 'vote',
-  		via: 'user'
+  		via: 'player'
   	},
 
   	hams: {
@@ -33,7 +32,7 @@ module.exports = {
   	}
   },
 
-  populatedUser: function(user, cb) {
+  populatedPlayer: function(player, cb) {
 
     // User.query()
   }

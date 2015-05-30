@@ -9,14 +9,6 @@ module.exports = {
 
   attributes: {
 
-  	like: {
-      type: 'integer',
-      defaultsTo: 0
-    },
-    dislike: {
-      type: 'integer',
-      defaultsTo: 0
-    },
     score: {
       type: 'integer',
       defaultsTo: 0
@@ -25,20 +17,10 @@ module.exports = {
   		model: 'ham',
       required: true
   	},
-  	user: {
-  		model: 'user',
+  	player: {
+  		model: 'player',
       required: true
   	}
   },
-
-  beforeCreate: function(values, cb) {
-  	values.score = values.like - values.dislike;
-  	cb();
-  },
-
-  beforeUpdate: function(values, cb) {
-  	values.score = values.like - values.dislike;
-  	cb();
-  }
 };
 

@@ -6,31 +6,28 @@
  */
 
 
-function addValuesToHams(hams, user) {
+function addValuesToHams(hams, player) {
 	var calculated = _.map(hams, function(ham) {
 		
-		_.assign(ham, addVotesToHam(ham));
-		ham.myVote = addMyVoteToHam(ham, user);
+		ham.score = scoreForHam(ham);
+		ham.myVote = addMyVoteToHam(ham, player);
 		delete(ham.votes);
 		return ham;
 	});
 	return calculated;
 };
 
-function addVotesToHam(ham) {
-	var values = _.reduce(ham.votes, function(sum, next) {
-		  sum.likes += next.like;
-		  sum.dislikes += next.dislike;
-		  sum.score = sum.likes - sum.dislikes;
+function scoreForHam(ham) {
+	return _.reduce(ham.votes, function(sum, next) {
+		  sum += next;
 		  return sum;
-	}, {likes: 0, dislikes: 0, score: 0});
-	return values;
+	}, 0);
 };
 
-function addMyVoteToHam(ham, user) {
+function addMyVoteToHam(ham, player) {
 
 	var myVote = _.find(ham.votes, function(vote) {
-		return vote.user === user;
+		return vote.player === player;
 	});
 
 	return myVote;
@@ -49,7 +46,7 @@ module.exports = {
 		populate('votes').
 		limit(50).
 		then(function(hams) {
-			var updatedHams = addValuesToHams(hams, req.session.user);
+			var updatedHams = addValuesToHams(hams, req.session.player);
 			updatedHams = _.sortBy(updatedHams, function(ham) {
 				return -ham.score;
 			});
@@ -64,13 +61,13 @@ module.exports = {
 		populate('votes').
 		limit(50).
 		then(function(hams) {
-			res.json(addValuesToHams(hams, req.session.user));		
+			res.json(addValuesToHams(hams, req.session.player));		
 		});
 	},
 
 	upvote: function(req, res) {
 
-		if ( ! req.session.user ) {
+		if ( ! req.session.player ) {
 			return res.badRequest('Login first');
 		}
 		var id = req.param('id');
@@ -83,25 +80,25 @@ module.exports = {
 			sails.log.info(ham);
 
 			Vote.find({
-				'user':req.session.user,
+				'player':req.session.player,
 				'ham': ham.id
 			}).then(function(votes) {
 				if ( votes.length === 0 ) {
 					sails.log.info('creating new feedback');
 					return Vote.create({
-						'user':req.session.user,
+						'player':req.session.player,
 						'ham': ham.id,
-						'like': 1
+						'score': 1
 					}).then(function(vote) {
 						return res.json(vote);
 					});
 				} else {
 					sails.log.info('updating existing feedback');
 					return Vote.update({
-						'user':req.session.user,
+						'player':req.session.player,
 						'ham': ham.id,
 						
-					}, {'like': 1, 'dislike': 0}).
+					}, {'score': 1}).
 					then(function(votes) {
 						return res.json(votes[0]);
 					});
@@ -123,13 +120,13 @@ module.exports = {
 		populate('votes').
 		limit(50).
 		then(function(hams) {
-			res.json(addValuesToHams(hams, req.session.user));		
+			res.json(addValuesToHams(hams, req.session.player));		
 		});
 	},
 
 
 	downvote: function(req, res) {
-				if ( ! req.session.user ) {
+				if ( ! req.session.player ) {
 			return res.badRequest('Login first');
 		}
 		var id = req.param('id');
@@ -142,25 +139,25 @@ module.exports = {
 			sails.log.info(ham);
 
 			Vote.find({
-				'user':req.session.user,
+				'player':req.session.player,
 				'ham': ham.id
 			}).then(function(votes) {
 				if ( votes.length === 0 ) {
 					sails.log.info('creating new feedback');
 					return Vote.create({
-						'user':req.session.user,
+						'player':req.session.player,
 						'ham': ham.id,
-						'dislike': 1
+						'score': -1
 					}).then(function(vote) {
 						return res.json(vote);
 					});
 				} else {
 					sails.log.info('updating existing feedback');
 					return Vote.update({
-						'user':req.session.user,
+						'player':req.session.player,
 						'ham': ham.id,
 						
-					}, {'like': 0, 'dislike': 1}).
+					}, {'score': -1}).
 					then(function(votes) {
 						return res.json(votes[0]);
 					});
