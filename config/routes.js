@@ -35,6 +35,9 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
+  'GET /freeham': {
+    view: 'address-input'
+  },
   'POST /login': 'UserController.login',
   'POST /ham/:id/upvote': 'HamController.upvote',
   'POST /ham/:id/downvote': 'HamController.downvote'

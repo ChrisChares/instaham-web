@@ -25,6 +25,12 @@ module.exports = {
   		collection: 'ham',
   		via: 'poster'
   	}
+  },
+
+  populatedUser: function(user, cb) {
+
+    // User.query()
   }
+
 };
 
