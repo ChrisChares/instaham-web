@@ -10,9 +10,15 @@ module.exports = {
   attributes: {
 
   	//created via [NSUUID uuid]
+    id: {
+      type: 'integer',
+      autoIncrement: 'true',
+      unique: 'true',
+            primaryKey: 'true',
+
+    },
   	uuid: {
   		type: 'string',
-  		primaryKey: true,
   		unique: true
   	},
 
